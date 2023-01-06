@@ -15,7 +15,7 @@ version: "3.7"
 services:
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana-dash
+    container_name: grafana
     ports:
       - 8080:3000
     environment:
