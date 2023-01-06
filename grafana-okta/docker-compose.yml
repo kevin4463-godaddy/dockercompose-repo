@@ -1,0 +1,44 @@
+# NOT PART OF THE DOCKER-COMPOSE.YML FILE ##
+# ------------------------------------------------------
+# ENVIRONMENT VARIABLES TO USE:
+# OKTA_CLIENT_ID: 'Client id that is assigned to GoDaddy'
+# OKTA_CLIENT_SECRET: 'Client secret to validate the client id'
+# OKTA_SCOPES: 'openid profile email groups'
+# GODADDY_OKTA_AUTH_URL: 'https://{GodaddTenantId}.okta.com/oauth2/v1/authorize'
+# GODADD_OKTA_TOKEN_URL: 'https://{GodaddTenantId}.okta.com/oauth2/v1/token'
+# GODADDY_OKTA_USERINFO_URL: 'https://{GodaddTenantId}.okta.com/oauth2/v1/userinfo'
+# ALLOWED_GODADDY_GROUPS: 'Dev-MaaS'
+# ROLE_ATTRIBUTE_PATH: contains(parent.key[*], 'Admin') && 'Admin' || contains(parent.key[*], 'Editor') && 'Editor' || 'Viewer'
+# the Role attribute comes from the okta payload, this will need to be tested to distribute access properly
+
+version: "3.7"
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana-dash
+    ports:
+      - 8080:3000
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Phoenix
+      - GF_AUTH_BASIC_ENABLED=true # leave true while configuring OAuth
+      - GF_AUTH_DISABLE_LOGIN_FORM=false # leave false while configuring OAuth
+      - GF_AUTH_OKTA_ENABLED=true
+      - GF_AUTH_OKTA_NAME=Okta
+      - GF_AUTH_OKTA_ALLOW_SIGN_UP=true
+      - GF_AUTH_OKTA_CLIENT_ID=${OKTA_CLIENT_ID}
+      - GF_AUTH_OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET}
+      - GF_AUTH_OKTA_SCOPES=${OKTA_SCOPES}
+      - GF_AUTH_OKTA_AUTH_URL=${GODADDY_OKTA_AUTH_URL}
+      - GF_AUTH_OKTA_TOKEN_URL=${GODADD_OKTA_TOKEN_URL}
+      - GF_AUTH_OKTA_API_URL=${GODADDY_OKTA_USERINFO_URL}
+      - GF_AUTH_OKTA_ALLOWED_GROUPS=${ALLOWED_GODADDY_GROUPS}
+      - GF_AUTH_OKTA_ROLE_ATTRIBUTE_PATH=${ROLE_ATTRIBUTE_PATH}
+
+    volumes:
+      - data:/var/lib/grafana
+    restart: unless-stopped
+
+volumes:
+  data:
