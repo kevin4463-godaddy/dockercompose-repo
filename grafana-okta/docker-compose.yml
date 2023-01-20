@@ -16,8 +16,6 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
-    ports:
-      - 8080:3000
     environment:
       - PUID=1000
       - PGID=1000
