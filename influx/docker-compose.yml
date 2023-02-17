@@ -1,0 +1,14 @@
+version: "3"
+services:  
+  db:
+    image: influxdb:1.8
+    container_name: influx
+    restart: unless-stopped
+    environment:
+      - TZ=America/Phoenix
+    volumes:
+      - db_data:/var/lib/influxdb
+    ports:
+      - 8086:8086
+volumes:
+  db_data:
