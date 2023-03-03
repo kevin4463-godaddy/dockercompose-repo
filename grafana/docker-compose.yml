@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     
   grafana_l2:
-    mage: grafana/grafana:latest
+    image: grafana/grafana:latest
     container_name: grafana_l2
     ports:
       - 8081:3000
