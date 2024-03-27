@@ -2,9 +2,10 @@ version: "3.7"
 services:
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
     ports:
-      - 8080:3000
+      - "8080:3000"
+      - "8081:3000"
+      - "8082:3000"
     environment:
       - PUID=1000
       - PGID=1000
@@ -18,41 +19,14 @@ services:
       - GF_AUTH_OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET}
       - GF_AUTH_OKTA_SCOPES=${OKTA_SCOPES}
       - GF_AUTH_OKTA_AUTH_URL=${GODADDY_OKTA_AUTH_URL}
-      - GF_AUTH_OKTA_TOKEN_URL=${GODADD_OKTA_TOKEN_URL}
+      - GF_AUTH_OKTA_TOKEN_URL=${GODADDY_OKTA_TOKEN_URL}
       - GF_AUTH_OKTA_API_URL=${GODADDY_OKTA_USERINFO_URL}
       - GF_AUTH_OKTA_ALLOWED_GROUPS=${ALLOWED_GODADDY_GROUPS}
       - GF_AUTH_OKTA_ROLE_ATTRIBUTE_PATH=${ROLE_ATTRIBUTE_PATH}
     volumes:
       - data:/var/lib/grafana
-      
-    restart: unless-stopped
-    
-  grafana_l2:
-    image: grafana/grafana:latest
-    container_name: grafana_l2
-    ports:
-      - 8081:3000
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Phoenix
-      - GF_AUTH_BASIC_ENABLED=true # leave true while configuring OAuth
-      - GF_AUTH_DISABLE_LOGIN_FORM=false # leave false while configuring OAuth
-      - GF_AUTH_OKTA_ENABLED=true
-      - GF_AUTH_OKTA_NAME=Okta
-      - GF_AUTH_OKTA_ALLOW_SIGN_UP=true
-      - GF_AUTH_OKTA_CLIENT_ID=${OKTA_CLIENT_ID}
-      - GF_AUTH_OKTA_CLIENT_SECRET=${OKTA_CLIENT_SECRET}
-      - GF_AUTH_OKTA_SCOPES=${OKTA_SCOPES}
-      - GF_AUTH_OKTA_AUTH_URL=${GODADDY_OKTA_AUTH_URL}
-      - GF_AUTH_OKTA_TOKEN_URL=${GODADD_OKTA_TOKEN_URL}
-      - GF_AUTH_OKTA_API_URL=${GODADDY_OKTA_USERINFO_URL}
-      - GF_AUTH_OKTA_ALLOWED_GROUPS=${ALLOWED_GODADDY_GROUPS}
-      - GF_AUTH_OKTA_ROLE_ATTRIBUTE_PATH=${ROLE_ATTRIBUTE_PATH}
-    volumes:
-      - data:/var/lib/grafana
-      
-    restart: unless-stopped
+    deploy:
+      replicas: 3
       
 volumes:
   data:
