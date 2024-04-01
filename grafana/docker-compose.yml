@@ -21,6 +21,7 @@ services:
       - GF_AUTH_OKTA_API_URL=${GODADDY_OKTA_USERINFO_URL}
       - GF_AUTH_OKTA_ALLOWED_GROUPS=${ALLOWED_GODADDY_GROUPS}
       - GF_AUTH_OKTA_ROLE_ATTRIBUTE_PATH=${ROLE_ATTRIBUTE_PATH}
+      - GF_SERVER_ROOT_URL=${SERVER_ROOT_URL}
     volumes:
       - data:/var/lib/grafana
     deploy:
