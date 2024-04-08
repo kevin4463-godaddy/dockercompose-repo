@@ -8,8 +8,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Phoenix
-      - GF_AUTH_BASIC_ENABLED=true # leave true while configuring OAuth
-      - GF_AUTH_DISABLE_LOGIN_FORM=false # leave false while configuring OAuth
+      - GF_AUTH_BASIC_ENABLED=${AUTH_BASIC_ENABLED} # leave true while configuring OAuth
+      - GF_AUTH_DISABLE_LOGIN_FORM={DISABLE_LOGIN_FORM} # leave false while configuring OAuth
       - GF_AUTH_OKTA_ENABLED=true
       - GF_AUTH_OKTA_NAME=Okta
       - GF_AUTH_OKTA_ALLOW_SIGN_UP=true
