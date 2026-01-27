@@ -1,0 +1,37 @@
+services:
+  proxy_manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+    environment:
+      TZ: 'America/Phoenix'
+      DB_MYSQL_HOST: 'proxy_manager_db'
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: ${MYSQL_SERVICE_UESR}
+      DB_MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
+      DB_MYSQL_NAME: 'proxy_manager'
+      # Optional SSL (see section below)
+      DB_MYSQL_SSL: 'true'
+      DB_MYSQL_SSL_REJECT_UNAUTHORIZED: 'true'
+      DB_MYSQL_SSL_VERIFY_IDENTITY: 'true'
+      DISABLE_IPV6: 'true'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - proxy_manager_db
+
+  proxy_manager_db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: 'proxy_manager'
+      MYSQL_USER: ${MYSQL_SERVICE_UESR}
+      MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
+      MARIADB_AUTO_UPGRADE: '1'
+    volumes:
+      - ./mysql:/var/lib/mysql
