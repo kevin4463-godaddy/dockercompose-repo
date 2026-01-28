@@ -38,7 +38,7 @@ services:
       - proxy_mysql:/var/lib/mysql
 
 volumes:
-  - proxy_data:
-  - log_rotation_data:
-  - letsencrypty_data:
-  - proxy_mysql:
+  proxy_data:
+  log_rotation_data:
+  letsencrypty_data:
+  proxy_mysql:
