@@ -19,8 +19,9 @@ services:
       DB_MYSQL_SSL_VERIFY_IDENTITY: 'true'
       DISABLE_IPV6: 'true'
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+      - proxy_data:/data
+      - log_rotation_data:/etc/logrotate.d/nginx-proxy-manager
+      - letsencrypt_data:/etc/letsencrypt
     depends_on:
       - proxy_manager_db
 
@@ -34,4 +35,10 @@ services:
       MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
       MARIADB_AUTO_UPGRADE: '1'
     volumes:
-      - ./mysql:/var/lib/mysql
+      - proxy_mysql:/var/lib/mysql
+
+volumes:
+  - proxy_data:
+  - log_rotation_data:
+  - letsencrypty_data:
+  - proxy_mysql:
