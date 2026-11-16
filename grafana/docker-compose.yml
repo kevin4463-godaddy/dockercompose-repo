@@ -26,6 +26,6 @@ services:
       - GF_AUTH_OAUTH_ALLOW_INSECURE_EMAIL_LOOKUP=${ALLOW_INSECURE_EMAIL_LOOKUP}
     volumes:
       - data:/var/lib/grafana
-      
+    restart: unless-stopped
 volumes:
   data:
