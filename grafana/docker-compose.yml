@@ -27,5 +27,11 @@ services:
     volumes:
       - data:/var/lib/grafana
     restart: unless-stopped
+    networks:
+      - mig-net
 volumes:
-  data:
+  data:cd
+
+networks:
+  mig-net:
+    external: true
