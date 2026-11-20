@@ -29,9 +29,10 @@ services:
     restart: unless-stopped
     networks:
       - mig-net
+      
 volumes:
-  data:cd
-
+  data:
+  
 networks:
   mig-net:
     external: true
