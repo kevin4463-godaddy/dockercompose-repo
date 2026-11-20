@@ -24,6 +24,9 @@ services:
       - GF_SERVER_ROOT_URL=${SERVER_ROOT_URL}
       - GF_AUTH_GENERIC_OAUTH_EMAIL_ATTRIBUTE_PATH=${EMAIL_ATTRIBUTE_PATH}
       - GF_AUTH_OAUTH_ALLOW_INSECURE_EMAIL_LOOKUP=${ALLOW_INSECURE_EMAIL_LOOKUP}
+      - VIRTUAL_HOST=grafana.emailmigrations.int.gdcorp.tools
+      - VIRTUAL_PORT=8080
+      - CERT_NAME=emailmigrations.int.gdcorp.tools
     volumes:
       - data:/var/lib/grafana
     restart: unless-stopped
